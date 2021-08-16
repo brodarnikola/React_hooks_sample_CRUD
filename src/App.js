@@ -22,6 +22,7 @@ function App() {
     getTasks()
   }, [])
 
+  
   useEffect(() => {
     console.log("In this useEffect it will only enter, when the value of state, variable showAddTask is changed.. because showAddTask is passed as second parameter")
   }, [showAddTask])
