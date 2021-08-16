@@ -22,6 +22,14 @@ function App() {
     getTasks()
   }, [])
 
+  useEffect(() => {
+    console.log("In this useEffect it will only enter, when the value of state, variable showAddTask is changed.. because showAddTask is passed as second parameter")
+  }, [showAddTask])
+
+  useEffect(() => {
+    console.log("This useEffect will be executed every time, when some new state, value change. Because I have nothing passed as second parameter")
+  })
+
   // fetch tasks
   const fetchTasks = async () => {
     const res = await fetch('http://localhost:5000/tasks')
