@@ -29,6 +29,12 @@
       "day": "ee",
       "reminder": false,
       "id": 8
+    },
+    {
+      "text": "ee",
+      "day": "rrr",
+      "reminder": false,
+      "id": 9
     }
   ]
 }

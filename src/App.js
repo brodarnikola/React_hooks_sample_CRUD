@@ -22,6 +22,10 @@ function App() {
     getTasks()
   }, [])
 
+  useEffect(() => {
+    console.log("In this useEffect it will only enter, when the value of state, variable showAddTask is changed.. because showAddTask is passed as second parameter")
+  }, [showAddTask])
+
   // fetch tasks
   const fetchTasks = async () => {
     const res = await fetch('http://localhost:5000/tasks')
@@ -72,6 +76,8 @@ function App() {
     console.log("Change reminder" + id)
 
     const taskToToogle = await fetchTask(id)
+    // I want, that all values in this object taskToToogle remains the same.. with help of ...taskToToogle
+    // I'm only changing this value -> reminder
     const updTask = {...taskToToogle, reminder: !taskToToogle.reminder}
 
     const res = await fetch(`http://localhost:5000/tasks/${id}`,
