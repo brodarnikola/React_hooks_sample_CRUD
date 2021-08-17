@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { createBrowserHistory } from 'history';
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import Tasks from "./components/Tasks"
 import AddTask from "./components/AddTask"
 import About from "./components/About"
+import Button from './components/Button'
 
 function App() {
-
-  const [showAddTask, setShowAddTask] = useState(true)
+ 
+  const [number, setNumber] = useState(0);
 
   const [tasks, setTasks] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const history = createBrowserHistory();
 
   useEffect(() => {
 
@@ -21,15 +24,15 @@ function App() {
       setTimeout(() => {
         setTasks(tasksFromServer)
         setIsLoading(false)
-      }, 3000)
+      }, 1000)
     }
 
     getTasks()
   }, [])
 
   useEffect(() => {
-    console.log("In this useEffect it will only enter, when the value of state, variable showAddTask is changed.. because showAddTask is passed as second parameter")
-  }, [showAddTask])
+    console.log("In this useEffect it will only enter, when the value of state, variable number is changed.. because number is passed as second parameter")
+  }, [number])
 
   useEffect(() => {
     console.log("This useEffect will be executed every time, when some new state, value change. Because I have nothing passed as second parameter")
@@ -49,27 +52,6 @@ function App() {
     const data = await res.json()
     console.log(data)
     return data
-  }
-
-  //add task
-  const addTask = async (task) => {
-    console.log("task: " + task.text + " day: " + task.day)
-    const res = await fetch(`http://localhost:5000/tasks`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify(task),
-      })
-
-    const data = await res.json()
-
-
-    // console.log("Adding new task")
-    // const id = Math.floor(Math.random() * 10000) + 1
-    // const newTask = {id, ...task}
-    setTasks([...tasks, data])
   }
 
   // Delete task
@@ -104,27 +86,38 @@ function App() {
     setTasks(tasks.map((task) => task.id === id ? { ...task, reminder: data.reminder } : task))
   }
 
+  const increaseValueByOne = () => setNumber( value => value + 1)
 
   return (
-    <Router>
+    <Router history={history}>
       <div className="container">
         {isLoading ? <div>Loading data, please wait..</div> : (<>
           <Header
-            onAdd={() => setShowAddTask(!showAddTask)}
-            showAdd={showAddTask}
-            title='Task tracker' />
+            title='Task tracker Practice Ariel Brc' />
+          <div>
+            For odd number background color of button will be green. For even number background color will be blue.
+            <br />
+            <Button
+                text={number.toString()}  />
+            <Button
+              color={number % 2 == 0 ? 'green' : 'blue'} text={'+'} onClick={increaseValueByOne}  />
+          </div>
           <Route
             path='/'
             exact
             render={(props) => (
               <>
-                {showAddTask && <AddTask onAddNewTask={addTask} />}
+                {/* {showAddTask && <AddTask onAddNewTask={addTask} />} */}
                 {tasks.length > 0 ?
                   <Tasks tasks={tasks} onDelete={deleteTask} onToogle={toogleReminder} /> : 'All task are done'
                 }
               </>
             )}
           />
+          <Route path='/addNewTask' render={
+            () => <AddTask />
+          } />
+          {/* <Route path='/addNewTask' component={AddTask} /> */}
           <Route path='/about' component={About} />
           <Footer />
         </>)}

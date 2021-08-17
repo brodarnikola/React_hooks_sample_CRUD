@@ -1,17 +1,24 @@
 import PropTips from 'prop-types'
 import Button from './Button'
 import { useLocation } from 'react-router'
+import { Link, useHistory } from 'react-router-dom'
 
-const Header = ({ title, onAdd, showAdd }) => {
+const Header = ({ title }) => {
 
     const locationName = useLocation()
+    const history = useHistory();
+ 
+    const routeChange = () =>{ 
+        let path = '/addNewTask'; 
+        history.push(path);
+    }
 
     return (
         <header className="header">
-            <h1 >{title}</h1>
+            {/* inline style example */}
+            <h1 style={{color: title.length > 5 ? 'green' : 'blue'}}  >{title}</h1>
             {locationName.pathname === '/' &&
-                <Button color={showAdd ? 'green' : 'blue'}
-                    text={showAdd ? 'Close' : 'Add'} onClick={onAdd} />
+                <Button color={title.length > 5 ? 'green' : 'blue'} text={'ADD'} onClick={routeChange} />
             }
         </header>
     )

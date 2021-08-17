@@ -1,6 +1,7 @@
 import {useState} from 'react'
+import {Link} from 'react-router-dom'
 
-const AddTask = ({onAddNewTask}) => {
+const AddTask = () => {
 
     const [text, setText] = useState('')  
     const [day, setDay] = useState('')
@@ -14,14 +15,35 @@ const AddTask = ({onAddNewTask}) => {
             return
         }
 
-        onAddNewTask({ text, day, reminder})
+        addTask({text, day, reminder})
+ 
         setText('')
         setDay('')
         setReminder(false)
     }
+ 
+    //add task
+    const addTask = async (task) => {
+        console.log("task: " + task.text + " day: " + task.day)
+        const res = await fetch(`http://localhost:5000/tasks`,
+        {
+            method: 'POST',
+            headers: {
+            'Content-type': 'application/json'
+            },
+            body: JSON.stringify(task),
+        })
+
+        const data = await res.json()
+
+        changeRoute('/')
+    }
+
+    const changeRoute = (newRoute) => window.location.href = newRoute
 
     return (
         <form className='add-form' onSubmit={onSubmit} >
+           <Link to='/'>GO BACK</Link>
            <div className='form-control'>
                <label>Task</label>
                <input type='text' placeholder='Add task' 

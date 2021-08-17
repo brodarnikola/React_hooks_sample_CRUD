@@ -13,22 +13,22 @@
       "reminder": false
     },
     {
-      "text": "hgf",
-      "day": "23",
-      "reminder": true,
-      "id": 7
-    },
-    {
       "text": "zz",
       "day": "ee",
       "reminder": true,
       "id": 8
     },
     {
-      "text": "ee",
-      "day": "rrr",
+      "text": "opa radi odlicno",
+      "day": "5 9 17",
       "reminder": false,
-      "id": 9
+      "id": 13
+    },
+    {
+      "text": "eee",
+      "day": "too",
+      "reminder": true,
+      "id": 17
     }
   ]
 }
