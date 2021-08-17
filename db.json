@@ -13,12 +13,6 @@
       "reminder": false
     },
     {
-      "text": "yt",
-      "day": "ytr",
-      "reminder": false,
-      "id": 6
-    },
-    {
       "text": "hgf",
       "day": "23",
       "reminder": true,
@@ -27,7 +21,7 @@
     {
       "text": "zz",
       "day": "ee",
-      "reminder": false,
+      "reminder": true,
       "id": 8
     },
     {

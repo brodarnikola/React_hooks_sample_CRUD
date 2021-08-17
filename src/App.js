@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import {BrowserRouter as Router, Route} from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import Tasks from "./components/Tasks"
@@ -11,21 +11,26 @@ function App() {
   const [showAddTask, setShowAddTask] = useState(true)
 
   const [tasks, setTasks] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
 
     const getTasks = async () => {
+      setIsLoading(true)
       const tasksFromServer = await fetchTasks()
-      setTasks(tasksFromServer)
+      setTimeout(() => {
+        setTasks(tasksFromServer)
+        setIsLoading(false)
+      }, 3000)
     }
 
     getTasks()
   }, [])
- 
+
   useEffect(() => {
     console.log("In this useEffect it will only enter, when the value of state, variable showAddTask is changed.. because showAddTask is passed as second parameter")
   }, [showAddTask])
- 
+
   useEffect(() => {
     console.log("This useEffect will be executed every time, when some new state, value change. Because I have nothing passed as second parameter")
   })
@@ -49,14 +54,14 @@ function App() {
   //add task
   const addTask = async (task) => {
     console.log("task: " + task.text + " day: " + task.day)
-    const res = await fetch(`http://localhost:5000/tasks`, 
-    {
-      method: 'POST', 
-    headers: {
-      'Content-type': 'application/json'
-    },
-    body: JSON.stringify(task),
-    })
+    const res = await fetch(`http://localhost:5000/tasks`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(task),
+      })
 
     const data = await res.json()
 
@@ -70,7 +75,7 @@ function App() {
   // Delete task
   const deleteTask = async (id) => {
 
-    await fetch(`http://localhost:5000/tasks/${id}`, {method: 'DELETE'})  
+    await fetch(`http://localhost:5000/tasks/${id}`, { method: 'DELETE' })
 
     setTasks(tasks.filter((task) => task.id !== id))
   }
@@ -82,7 +87,7 @@ function App() {
     const taskToToogle = await fetchTask(id)
     // I want, that all values in this object taskToToogle remains the same.. with help of ...taskToToogle
     // I'm only changing this value -> reminder
-    const updTask = {...taskToToogle, reminder: !taskToToogle.reminder}
+    const updTask = { ...taskToToogle, reminder: !taskToToogle.reminder }
 
     const res = await fetch(`http://localhost:5000/tasks/${id}`,
       {
@@ -96,35 +101,33 @@ function App() {
 
     const data = await res.json()
 
-    setTasks(tasks.map((task) => 
-    task.id === id ? { ...task, reminder: data.reminder } 
-    : task))
+    setTasks(tasks.map((task) => task.id === id ? { ...task, reminder: data.reminder } : task))
   }
 
 
   return (
     <Router>
       <div className="container">
-        <Header 
-        onAdd={() => setShowAddTask(!showAddTask)} 
-        showAdd={showAddTask}
-        title='Task tracker' /> 
-        <Route 
-          path='/'
-          exact
-          render={(props) =>(
-            <>
- { showAddTask && <AddTask onAddNewTask={addTask} /> }
-        {tasks.length > 0 ?
-          <Tasks tasks={tasks} onDelete={deleteTask} onToogle = {toogleReminder} /> : 'All task are done'
-        }
-            </>
-          )}
-        
-        />
- 
-        <Route path='/about' component={About} />
-        <Footer />
+        {isLoading ? <div>Loading data, please wait..</div> : (<>
+          <Header
+            onAdd={() => setShowAddTask(!showAddTask)}
+            showAdd={showAddTask}
+            title='Task tracker' />
+          <Route
+            path='/'
+            exact
+            render={(props) => (
+              <>
+                {showAddTask && <AddTask onAddNewTask={addTask} />}
+                {tasks.length > 0 ?
+                  <Tasks tasks={tasks} onDelete={deleteTask} onToogle={toogleReminder} /> : 'All task are done'
+                }
+              </>
+            )}
+          />
+          <Route path='/about' component={About} />
+          <Footer />
+        </>)}
       </div>
     </Router>
   );
