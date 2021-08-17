@@ -1,6 +1,5 @@
 import {useState} from 'react'
 
-
 const AddTask = ({onAddNewTask}) => {
 
     const [text, setText] = useState('')  
