@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import Tasks from "./components/Tasks"
 import AddTask from "./components/AddTask"
 import About from "./components/About"
 import Button from './components/Button'
+import CustomHookExample from './components/CustomHookExample'
+import ReducerExample from './components/ReducerExample'
 
 function App() {
 
@@ -85,7 +87,7 @@ function App() {
   }
 
   const increaseValueByOne = () => setNumber(value => value + 1)
-
+ 
   return (
     <Router>
       <div className="container">
@@ -104,6 +106,13 @@ function App() {
                   text={number.toString()} />
                 <Button
                   color={number % 2 === 0 ? 'green' : 'blue'} text={'+'} onClick={increaseValueByOne} />
+                <br/>
+                Custom hook example.. fetching data from network, backend. Displaying data, loading and error state
+                <Link to={'/customHookExample'}> <Button text={"Custom hook example"} color={'darkblue'}   /> </Link>
+
+                <br/><br/>
+                Reducer hook example.. fetching data from network, backend. Displaying data, loading and error state
+                <Link to={'/reducerHookExample'}> <Button text={"Reducer hook example"} color={'darkblue'}   /> </Link>
 
                 {/* {showAddTask && <AddTask onAddNewTask={addTask} />} */}
                 {tasks.length > 0 ?
@@ -116,6 +125,8 @@ function App() {
             () => <AddTask />
           } /> */}
           <Route path='/addNewTask' component={AddTask} />
+          <Route path='/customHookExample' component={CustomHookExample} />
+          <Route path='/reducerHookExample' component={ReducerExample} />
           <Route path='/about' component={About} />
           <Footer />
         </>)}
