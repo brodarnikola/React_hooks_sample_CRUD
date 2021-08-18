@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { createBrowserHistory } from 'history';
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import Tasks from "./components/Tasks"
@@ -9,12 +8,11 @@ import About from "./components/About"
 import Button from './components/Button'
 
 function App() {
- 
+
   const [number, setNumber] = useState(0);
 
   const [tasks, setTasks] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const history = createBrowserHistory();
 
   useEffect(() => {
 
@@ -86,27 +84,27 @@ function App() {
     setTasks(tasks.map((task) => task.id === id ? { ...task, reminder: data.reminder } : task))
   }
 
-  const increaseValueByOne = () => setNumber( value => value + 1)
+  const increaseValueByOne = () => setNumber(value => value + 1)
 
   return (
-    <Router history={history}>
+    <Router>
       <div className="container">
         {isLoading ? <div>Loading data, please wait..</div> : (<>
           <Header
             title='Task tracker Practice Ariel Brc' />
-          <div>
-            For odd number background color of button will be green. For even number background color will be blue.
-            <br />
-            <Button
-                text={number.toString()}  />
-            <Button
-              color={number % 2 == 0 ? 'green' : 'blue'} text={'+'} onClick={increaseValueByOne}  />
-          </div>
+
           <Route
             path='/'
             exact
             render={(props) => (
               <>
+                For odd number background color of button will be green. For even number background color will be blue.
+                <br />
+                <Button
+                  text={number.toString()} />
+                <Button
+                  color={number % 2 === 0 ? 'green' : 'blue'} text={'+'} onClick={increaseValueByOne} />
+
                 {/* {showAddTask && <AddTask onAddNewTask={addTask} />} */}
                 {tasks.length > 0 ?
                   <Tasks tasks={tasks} onDelete={deleteTask} onToogle={toogleReminder} /> : 'All task are done'
@@ -114,10 +112,10 @@ function App() {
               </>
             )}
           />
-          <Route path='/addNewTask' render={
+          {/* <Route path='/addNewTask' render={
             () => <AddTask />
-          } />
-          {/* <Route path='/addNewTask' component={AddTask} /> */}
+          } /> */}
+          <Route path='/addNewTask' component={AddTask} />
           <Route path='/about' component={About} />
           <Footer />
         </>)}
