@@ -23,6 +23,12 @@
       "day": "nedelja",
       "reminder": true,
       "id": 20
+    },
+    {
+      "text": "STEF",
+      "day": "REACT",
+      "reminder": false,
+      "id": 21
     }
   ]
 }
