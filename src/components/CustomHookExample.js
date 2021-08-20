@@ -4,12 +4,12 @@ import Button from './Button';
 import useDataApi from '../customHooks/useDataApi';
 import { Link } from 'react-router-dom'
 
-import { CurrencyProvider, useCurrency, CURRENCIES } from '../context/contextCurrency';
+import { CurrencyProvider, useCurrency, CURRENCIES } from '../context/CurrencyContext';
 
 
 const CustomHookExample = () => {
 
-    // example of useContext 
+    // example of useContext.. it is connected with file contextCurrency.js
     const DATA = [
         {
           id: '1',
@@ -21,10 +21,7 @@ const CustomHookExample = () => {
           title: 'The Road to GraphQL',
           price: 29.99,
         },
-      ];
-
-    const [currency, setCurrency] = React.useState(CURRENCIES.Euro);
-
+    ];
 
 
     const [query, setQuery] = useState('redux597')

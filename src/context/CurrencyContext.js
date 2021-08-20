@@ -1,7 +1,8 @@
 import React from 'react';
  
 const CurrencyContext = React.createContext(null);
- 
+
+// custom context hook for accessing this CurrencyContext
 const useCurrency = () => {
     const [currency, setCurrency] = React.useContext(CurrencyContext);
    
@@ -12,7 +13,7 @@ const useCurrency = () => {
     return { value: currency, onChange: handleCurrency };
   };
 
-
+// if I have to use context in third-parties like Styled Components:
 const withCurrency = (Component) => (props) => {
     const currency = useCurrency();
    
