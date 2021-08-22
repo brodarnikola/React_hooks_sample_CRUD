@@ -4,7 +4,6 @@ import Button from './Button';
 import useCustomReducerDataApi from '../customHooks/useCustomReducerDataApi';
 import { Link } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid';
-//import List from "./List"
 
 const ReducerExample = () => {
 
@@ -81,6 +80,7 @@ const ReducerExample = () => {
         <Fragment>
             <Link to='/'>GO BACK</Link>
             <div>
+                Example of useCallback function
                 <input type="text" value={text} onChange={handleText} />
                 <button type="button" onClick={handleAddUser}>
                     Add User
@@ -94,6 +94,7 @@ const ReducerExample = () => {
                 <Button text={'Focus'} onClick={() => focusInput()} />
             </div>
             <div>
+                Example of useRef
                 <h1>Counter state: {counter}</h1>
                 <h1 ref={counterRef}>Counter ref: {counter}</h1>
                 <Button text={'+'} onClick={() => incrementCounter()} />
