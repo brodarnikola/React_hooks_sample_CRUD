@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, Fragment } from 'react';
+import { useState, useRef, useCallback, useEffect, Fragment } from 'react';
 import React from 'react';
 import Button from './Button';
 import useCustomReducerDataApi from '../customHooks/useCustomReducerDataApi';
@@ -15,13 +15,27 @@ const ReducerExample = () => {
     const [counter, setCounter] = useState(0);
     const counterRef = useRef(counter);
     const incrementCounter = () => {
-        setCounter(c => c + 1);
-        counterRef.current = counter;
+        setCounter(c => c + 1,
+            counterRef.current = c + 1) ;
     }
+
     const decrementCounter = () => {
         setCounter(c => c - 1);
         counterRef.current = counter;
     }
+
+    useEffect(() => {
+        console.log("Will it enter here... 777")
+            counterRef.current = counter
+    }, [counter])
+
+    useCallback(
+        () => {
+            console.log("Will it enter here... 55")
+            counterRef.current = counter
+        },
+        [counter, setCounter],
+    ) 
 
 
     // example of useCallback
@@ -80,6 +94,7 @@ const ReducerExample = () => {
         <Fragment>
             <Link to='/'>GO BACK</Link>
             <div>
+                <br/>
                 Example of useCallback function
                 <input type="text" value={text} onChange={handleText} />
                 <button type="button" onClick={handleAddUser}>
@@ -89,6 +104,7 @@ const ReducerExample = () => {
                 <List list={users} onRemove={handleRemove} />
             </div>
             <div>
+                <br/>
                 Examples of useRef, to save state variable and html DOM, node object
                 <input type="text" ref={inputRef} />
                 <Button text={'Focus'} onClick={() => focusInput()} />
@@ -96,10 +112,11 @@ const ReducerExample = () => {
             <div>
                 Example of useRef
                 <h1>Counter state: {counter}</h1>
-                <h1 ref={counterRef}>Counter ref: {counter}</h1>
+                <h1 >Counter ref: {counterRef.current}</h1>
                 <Button text={'+'} onClick={() => incrementCounter()} />
                 <Button text={'-'} onClick={() => decrementCounter()} />
-            </div>
+            </div> 
+            <br/>
             <form
                 onSubmit={(event) => {
                     doFetch(baseUrl + `${query}`)
