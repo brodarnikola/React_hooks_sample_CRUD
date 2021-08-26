@@ -15,8 +15,8 @@ const ReducerExample = () => {
     const [counter, setCounter] = useState(0);
     const counterRef = useRef(counter);
     const incrementCounter = () => {
-        setCounter(c => c + 1,
-            counterRef.current = c + 1) ;
+        setCounter(c => c + 1) ;
+        counterRef.current = counter + 1;
     }
 
     const decrementCounter = () => {
@@ -29,8 +29,9 @@ const ReducerExample = () => {
             counterRef.current = counter
     }, [counter])
 
-    useCallback(
+    const increaseByOne = useCallback(
         () => {
+            setCounter(c => c + 1) ;
             console.log("Will it enter here... 55")
             counterRef.current = counter
         },
@@ -113,7 +114,7 @@ const ReducerExample = () => {
                 Example of useRef
                 <h1>Counter state: {counter}</h1>
                 <h1 >Counter ref: {counterRef.current}</h1>
-                <Button text={'+'} onClick={() => incrementCounter()} />
+                <Button text={'+'} onClick={() => increaseByOne()} />
                 <Button text={'-'} onClick={() => decrementCounter()} />
             </div> 
             <br/>
