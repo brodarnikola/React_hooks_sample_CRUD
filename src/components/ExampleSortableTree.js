@@ -8,11 +8,14 @@ import SortableTree, {
 import Button from '../components/Button';
 import 'react-sortable-tree/style.css';
 
-export default class ExampleSortableTree extends Component {
+export default class SortTree extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      searchString: '',
+      searchFocusIndex: 0,
+      currentNode: {},
       treeData: [
         {
           title: 'Comic Books',
@@ -25,7 +28,7 @@ export default class ExampleSortableTree extends Component {
           ],
         },
         {
-          title: 'Historical Fiction',
+          title: 'Historical Fiction Books',
           children: [
             { title: 'The Help' },
             { title: 'All the Light We Cannot See' },
@@ -74,12 +77,16 @@ export default class ExampleSortableTree extends Component {
   };
 
   render() {
+    const { searchString, searchFocusIndex, treeData } = this.state;
+    const getNodeKey = ({ treeIndex }) => treeIndex;
+
     return (
       <div style={{ height: 800 }}>
         <div style={{ flex: '0 0 auto', padding: '0 15px' }}>
           <h2>React Sortable Tree</h2>
-          <Divider></Divider>
+          {/* <Divider></Divider> */}
           <Button
+            text={'Expand all'}
             size="mini"
             color="blue"
             onClick={() => {
@@ -89,6 +96,7 @@ export default class ExampleSortableTree extends Component {
             Expand all
           </Button>
           <Button
+            text={'Collapse all'}
             size="mini"
             color="blue"
             onClick={() => {
@@ -98,7 +106,7 @@ export default class ExampleSortableTree extends Component {
             Collapse all
           </Button>
           &nbsp;&nbsp;&nbsp;
-          <Input
+          <input
             size="mini"
             placeholder="Search"
             value={searchString}
@@ -107,8 +115,9 @@ export default class ExampleSortableTree extends Component {
             }
           />
         </div>
-        <Divider></Divider>
+        {/* <Divider></Divider> */}
         <SortableTree
+          isVirtualized={false}
           searchQuery={searchString}
           onChange={this.updateTreeData}
           searchFocusOffset={searchFocusIndex}
@@ -140,6 +149,7 @@ export default class ExampleSortableTree extends Component {
                 />
                 &nbsp;&nbsp;&nbsp;
                 <Button
+                  text={'Add'}
                   size="mini"
                   basic
                   color="blue"
@@ -152,6 +162,7 @@ export default class ExampleSortableTree extends Component {
                   }}
                 />
                 <Button
+                  text={'Delete'}
                   size="mini"
                   basic
                   color="blue"
