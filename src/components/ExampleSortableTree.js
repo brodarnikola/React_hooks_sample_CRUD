@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import SortableTree from 'react-sortable-tree';
-import 'react-sortable-tree/style.css'; // This only needs to be imported once in your app
+import SortableTree, {
+  toggleExpandedForAll,
+  changeNodeAtPath,
+  insertNode,
+  removeNodeAtPath,
+} from 'react-sortable-tree';
+import Button from '../components/Button';
+import 'react-sortable-tree/style.css';
 
 export default class ExampleSortableTree extends Component {
   constructor(props) {
@@ -31,13 +37,135 @@ export default class ExampleSortableTree extends Component {
     };
   }
 
+  expandAndCollapse = (expanded) => {
+    this.setState({
+      treeData: toggleExpandedForAll({
+        treeData: this.state.treeData,
+        expanded,
+      }),
+    });
+  };
+
+  updateTreeData(treeData) {
+    this.setState({ treeData });
+  }
+  removeNode = (path) => {
+    this.setState((state) => ({
+      treeData: removeNodeAtPath({
+        treeData: state.treeData,
+        path,
+        getNodeKey: ({ treeIndex }) => treeIndex,
+      }),
+    }));
+  };
+  selectThis = (node, path) => {
+    this.setState({ currentNode: node, path: path });
+  };
+  insertNewNode = () => {
+    this.setState((state) => ({
+      treeData: insertNode({
+        treeData: state.treeData,
+        depth: 0,
+        minimumTreeIndex: state.treeData.length,
+        newNode: { title: '', children: [] },
+        getNodeKey: ({ treeIndex }) => treeIndex,
+      }).treeData,
+    }));
+  };
+
   render() {
     return (
       <div style={{ height: 800 }}>
+        <div style={{ flex: '0 0 auto', padding: '0 15px' }}>
+          <h2>React Sortable Tree</h2>
+          <Divider></Divider>
+          <Button
+            size="mini"
+            color="blue"
+            onClick={() => {
+              this.expandAndCollapse(true);
+            }}
+          >
+            Expand all
+          </Button>
+          <Button
+            size="mini"
+            color="blue"
+            onClick={() => {
+              this.expandAndCollapse(false);
+            }}
+          >
+            Collapse all
+          </Button>
+          &nbsp;&nbsp;&nbsp;
+          <Input
+            size="mini"
+            placeholder="Search"
+            value={searchString}
+            onChange={(event) =>
+              this.setState({ searchString: event.target.value })
+            }
+          />
+        </div>
+        <Divider></Divider>
         <SortableTree
-          isVirtualized={false}
-          treeData={this.state.treeData}
+          searchQuery={searchString}
+          onChange={this.updateTreeData}
+          searchFocusOffset={searchFocusIndex}
+          treeData={treeData}
           onChange={(treeData) => this.setState({ treeData })}
+          generateNodeProps={({ node, path }) => ({
+            title: (
+              <form
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  this.selectThis(node, path);
+                }}
+              >
+                <input
+                  style={{ fontSize: '1rem', width: 200 }}
+                  value={node.title}
+                  onChange={(event) => {
+                    const title = event.target.value;
+                    this.setState((state) => ({
+                      treeData: changeNodeAtPath({
+                        treeData: state.treeData,
+                        path,
+                        getNodeKey,
+                        newNode: { ...node, title },
+                      }),
+                    }));
+                  }}
+                />
+                &nbsp;&nbsp;&nbsp;
+                <Button
+                  size="mini"
+                  basic
+                  color="blue"
+                  circular
+                  icon="add"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.insertNewNode(path);
+                  }}
+                />
+                <Button
+                  size="mini"
+                  basic
+                  color="blue"
+                  circular
+                  icon="trash"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.removeNode(path);
+                  }}
+                />
+              </form>
+            ),
+          })}
         />
       </div>
     );
