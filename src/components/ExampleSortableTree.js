@@ -110,9 +110,10 @@ export default class SortTree extends Component {
             size="mini"
             placeholder="Search"
             value={searchString}
-            onChange={(event) =>
-              this.setState({ searchString: event.target.value })
-            }
+            onChange={(event) => {
+              console.log('Will it enter here');
+              this.setState({ searchString: event.target.value });
+            }}
           />
         </div>
         {/* <Divider></Divider> */}

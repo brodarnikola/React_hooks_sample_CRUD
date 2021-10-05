@@ -1,56 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
-import SortableTree from 'react-sortable-tree';
+import ExampleSortableTreeFunctionComponent from './ExampleSortableTreeFunctionComponent';
 
 const AddTask = () => {
   const [text, setText] = useState('');
   const [day, setDay] = useState('');
   const [reminder, setReminder] = useState(false);
-  const [treeValues, setTreeValues] = useState([
-    {
-      title: 'Comic Books',
-      children: [
-        { title: 'Amazing Spider-Man' },
-        { title: 'The Incredible Hulk' },
-        { title: 'Action Comics' },
-        { title: 'Batman' },
-        { title: 'New Avengers' },
-      ],
-    },
-    {
-      title: 'Historical Fiction',
-      children: [
-        { title: 'The Help' },
-        { title: 'All the Light We Cannot See' },
-        { title: ' The Color Purple' },
-        { title: ' War and Peace' },
-      ],
-    },
-  ]);
 
-  /* const treeDataB = [
-    {
-      title: 'Comic Books',
-      children: [
-        { title: 'Amazing Spider-Man' },
-        { title: 'The Incredible Hulk' },
-        { title: 'Action Comics' },
-        { title: 'Batman' },
-        { title: 'New Avengers' },
-      ],
-    },
-    {
-      title: 'Historical Fiction',
-      children: [
-        { title: 'The Help' },
-        { title: 'All the Light We Cannot See' },
-        { title: ' The Color Purple' },
-        { title: ' War and Peace' },
-      ],
-    },
-  ];
- */
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -115,13 +71,7 @@ const AddTask = () => {
         </div>
         <input type="submit" className="btn btn-block" value="Save task" />
       </form>
-      <div style={{ height: 800 }}>
-        <SortableTree
-          treeData={treeValues}
-          isVirtualized={false}
-          onChange={(treeData) => setTreeValues(treeData)}
-        />
-      </div>
+      <ExampleSortableTreeFunctionComponent />
     </div>
   );
 };
