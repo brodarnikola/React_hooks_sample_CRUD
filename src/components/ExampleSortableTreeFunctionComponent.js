@@ -173,6 +173,10 @@ const ExampleSortableTreeFunctionComponent = () => {
           ),
         })}
       />
+      <Button
+        text={' TREE DATA IN CONSOLE'}
+        onClick={() => console.log('Tree data is: ', treeData)}
+      ></Button>
     </div>
   );
 };
