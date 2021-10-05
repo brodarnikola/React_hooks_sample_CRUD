@@ -8,31 +8,6 @@ import SortableTree, {
 import Button from '../components/Button';
 
 const ExampleSortableTreeFunctionComponent = () => {
-  /* searchString: '',
-      searchFocusIndex: 0,
-      currentNode: {},
-      treeData: [
-        {
-          title: 'Comic Books',
-          children: [
-            { title: 'Amazing Spider-Man' },
-            { title: 'The Incredible Hulk' },
-            { title: 'Action Comics' },
-            { title: 'Batman' },
-            { title: 'New Avengers' },
-          ],
-        },
-        {
-          title: 'Historical Fiction Books',
-          children: [
-            { title: 'The Help' },
-            { title: 'All the Light We Cannot See' },
-            { title: ' The Color Purple' },
-            { title: ' War and Peace' },
-          ],
-        },
-      ], */
-
   const [searchString, setSearchString] = useState('');
   const [searchFocusIndex, setSearchFocusIndex] = useState(0);
   const [currentNode, setCurrentNode] = useState({});
@@ -65,13 +40,6 @@ const ExampleSortableTreeFunctionComponent = () => {
         expanded,
       })
     );
-
-    /* this.setState({
-      treeData: toggleExpandedForAll({
-        treeData: this.state.treeData,
-        expanded,
-      }),
-    }); */
   };
 
   const updateTreeData = (treeData) => {
@@ -86,19 +54,10 @@ const ExampleSortableTreeFunctionComponent = () => {
         getNodeKey: ({ treeIndex }) => treeIndex,
       })
     );
-
-    /* this.setState((state) => ({
-      treeData: removeNodeAtPath({
-        treeData: state.treeData,
-        path,
-        getNodeKey: ({ treeIndex }) => treeIndex,
-      }),
-    })); */
   };
 
   const selectThis = (node, path) => {
     setCurrentNode({ currentNode: node, path: path });
-    //this.setState({ currentNode: node, path: path });
   };
 
   const insertNewNode = () => {
@@ -111,16 +70,6 @@ const ExampleSortableTreeFunctionComponent = () => {
         getNodeKey: ({ treeIndex }) => treeIndex,
       }).treeData
     );
-
-    /* this.setState((state) => ({
-      treeData: insertNode({
-        treeData: state.treeData,
-        depth: 0,
-        minimumTreeIndex: state.treeData.length,
-        newNode: { title: '', children: [] },
-        getNodeKey: ({ treeIndex }) => treeIndex,
-      }).treeData,
-    })); */
   };
 
   const getNodeKey = ({ treeIndex }) => treeIndex;
