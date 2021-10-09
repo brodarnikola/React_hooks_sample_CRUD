@@ -9,6 +9,7 @@ import Button from './components/Button';
 import CustomHookExample from './components/CustomHookExample';
 import ReducerExample from './components/ReducerExample';
 import ExampleSortableTree from './components/ExampleSortableTree';
+import ExampleDragAndDrop from './components/ExampleDragAndDrop';
 
 function App() {
   const [number, setNumber] = useState(0);
@@ -112,6 +113,12 @@ function App() {
               }}
             />
             <br />
+            <Button
+              text={'Drag and drop example'}
+              onClick={(e) => {
+                window.location.href = '/dragAndDropExample';
+              }}
+            />
             <br />
 
             <Route
@@ -170,6 +177,7 @@ function App() {
               path="/sortableTreeExample"
               component={ExampleSortableTree}
             />
+            <Route path="/dragAndDropExample" component={ExampleDragAndDrop} />
             <Route path="/customHookExample" component={CustomHookExample} />
             <Route path="/reducerHookExample" component={ReducerExample} />
             <Route path="/about" component={About} />
